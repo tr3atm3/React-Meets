@@ -27,8 +27,15 @@ const Dummy_Meetups = [
   },
 ];
 
-function HomePage() {
-  return <MeetupList meetups={Dummy_Meetups} />;
+async function getData() {
+  //fetch data from an api
+  return Dummy_Meetups;
+}
+
+async function HomePage() {
+  const data = await getData();
+
+  return <MeetupList meetups={data} />;
 }
 
 export default HomePage;
