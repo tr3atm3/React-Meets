@@ -1,6 +1,8 @@
 import MeetupList from "./components/meetups/MeetupList";
 import "./globals.css";
+import Head from "next/head";
 import { MongoClient } from "mongodb";
+import { Fragment } from "react";
 const Dummy_Meetups = [
   {
     id: "m1",
@@ -49,7 +51,18 @@ async function getData() {
 async function HomePage() {
   const data = await getData();
 
-  return <MeetupList meetups={data} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of highly active react meetups"
+        />
+      </Head>
+      <MeetupList meetups={data} />;
+    </Fragment>
+  );
 }
 
 export default HomePage;
