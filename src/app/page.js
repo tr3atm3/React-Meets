@@ -1,5 +1,6 @@
 import MeetupList from "./components/meetups/MeetupList";
 import "./globals.css";
+import { MongoClient } from "mongodb";
 const Dummy_Meetups = [
   {
     id: "m1",
@@ -29,7 +30,20 @@ const Dummy_Meetups = [
 
 async function getData() {
   //fetch data from an api
-  return Dummy_Meetups;
+  const client = await MongoClient.connect(
+    "mongodb+srv://tushar:tushar@1@cluster0.dcudhdc.mongodb.net/meetups?retryWrites=true&w=majority&appName=Cluster0"
+  );
+  const db = client.db();
+  const meetupsCollection = db.collection("meetups");
+  const meetups = await meetupsCollection.find().toArray();
+  client.close();
+  const data = meetups.map((meetup) => ({
+    title: meetup.title,
+    address: meetup.address,
+    image: meetup.image,
+    id: meetup._id.toString(),
+  }));
+  return data;
 }
 
 async function HomePage() {
